@@ -78,14 +78,14 @@ var ajax = $.ajax({
                 };
             },
             onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 200};
-                layer.bindPopup('<svg class="accidents_chart" width=100 height =100></svg>'
-					            "<b><br/>Accidents in 2015: </b>" + feature.properties.2015_Total
-								"<b><br/>Accidents in 2014: </b>" + feature.properties.2014_Total
-								"<b><br/>Accidents in 2013: </b>" + feature.properties.2013_Total
-								"<b><br/>Accidents in 2012: </b>" + feature.properties.2012_total
-								"<b><br/>Accidents in 2011: </b>" + feature.properties.2011_total
-                    ,popupOptions);
+                var popupContent = [];
+    popupContent.push('<svg class="accidents_chart" width=100 height =100></svg>')
+    popupContent.push("<b><br/>Accidents in 2015: </b>" + feature.properties.2015_Total)
+    popupContent.push("<b><br/>Accidents in 2014: </b>" + feature.properties.2014_Total)
+    popupContent.push("<b><br/>Accidents in 2013: </b>" + feature.properties.2013_Total)
+    popupContent.push("<b><br/>Accidents in 2012: </b>" + feature.properties.2012_total)
+    popupContent.push("<b><br/>Accidents in 2011: </b>" + feature.properties.2011_total)
+    layer.bindPopup("<p>" + popupContent.join("") + "</p>");
 				
 				function chart() {
         var data = [{
@@ -102,12 +102,12 @@ var ajax = $.ajax({
                 key: "2013 Accidents",
                 value: feature.properties.2013_Total,
                 color: "red"
-            }
+            },
 					{
                 key: "2012 Accidents",
                 value: feature.properties.2012_total,
                 color: "orange"
-            }
+            },
 					{
                 key: "2011 Accidents",
                 value: feature.properties.2011_total,
