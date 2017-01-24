@@ -9,10 +9,16 @@
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	
+<link rel="stylesheet" href="css/nv.d3.css" type="text/css"/>
 
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
    
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+
+<script src="js/nv.d3.js"></script>
 
 
 <style>
@@ -72,13 +78,69 @@ var ajax = $.ajax({
                 };
             },
             onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 200};
-                layer.bindPopup("Popup text, access attributes with feature.properties.ATTRIBUTE_NAME"
-                    ,popupOptions);
+                var popupContent = [];
+    popupContent.push('<svg class="accidents_chart" width=100 height =100></svg>')
+    popupContent.push("<b><br/>Accidents in 2015: </b>" + feature.properties.2015_Total)
+    popupContent.push("<b><br/>Accidents in 2014: </b>" + feature.properties.2014_Total)
+    popupContent.push("<b><br/>Accidents in 2013: </b>" + feature.properties.2013_Total)
+    popupContent.push("<b><br/>Accidents in 2012: </b>" + feature.properties.2012_total)
+    popupContent.push("<b><br/>Accidents in 2011: </b>" + feature.properties.2011_total)
+    layer.bindPopup("<p>" + popupContent.join("") + "</p>");
+				
+				function chart() {
+        var data = [{
+                key: "2015 Accidents",
+                value: feature.properties.2015_Total,
+                color: "purple"
+            },
+            {
+                key: "2014 Accidents",
+                value: feature.properties.2014_Total,
+                color: "blue"
+            },
+            {
+                key: "2013 Accidents",
+                value: feature.properties.2013_Total,
+                color: "red"
+            },
+					{
+                key: "2012 Accidents",
+                value: feature.properties.2012_total,
+                color: "orange"
+            },
+					{
+                key: "2011 Accidents",
+                value: feature.properties.2011_total,
+                color: "yellow"
+            }
+        ];
+
+        nv.addGraph(function() {
+            var chart = nv.models.pieChart()
+                .x(function(d) {return d.key;})
+                .y(function(d) {return d.value;})
+                .showLegend(true)
+                .showTooltipPercent(false);
+
+            d3.select(".accidents_chart")
+                .datum(data)
+                .transition().duration(1200)
+                .call(chart);
+
+            return chart;
+        });
+
+    }
+    layer.on({
+        click: chart,
+    });
+}
             }
         }).addTo(map);
     }
 });
+	
+	
 
 
 </script>
