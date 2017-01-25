@@ -54,7 +54,7 @@ var defaultParameters = {
     service : 'WFS',
     version : '2.0',
     request : 'GetFeature',
-    typeName : 'nrw_accidents:nrw_accident_2011_2015',
+    typeName : 'nrw_acc:nrw_accident',
     outputFormat : 'text/javascript',
     format_options : 'callback:getJson',
     SrsName : 'EPSG:4326'
@@ -80,7 +80,8 @@ var ajax = $.ajax({
             onEachFeature: function (feature, layer) {
                 var popupContent = [];
     popupContent.push('<svg class="accidents_chart" width=100 height =100></svg>')
-    popupContent.push("<b>Accidents in 2015: </b>" + feature.properties.Totalfift)
+	popupContent.push("<b>STATE: </b>" + feature.properties.GEN)
+    popupContent.push("<b><br/>Accidents in 2015: </b>" + feature.properties.Totalfift)
     popupContent.push("<b><br/>Accidents in 2014: </b>" + feature.properties.Totalfour)
     popupContent.push("<b><br/>Accidents in 2013: </b>" + feature.properties.TotalThirt)
     popupContent.push("<b><br/>Accidents in 2012: </b>" + feature.properties.totalTwel)
@@ -89,27 +90,27 @@ var ajax = $.ajax({
 				
 				function chart() {
         var data = [{
-                key: "2015 Accidents",
+                key: "2015",
                 value: feature.properties.Totalfift,
                 color: "purple"
             },
             {
-                key: "2014 Accidents",
+                key: "2014",
                 value: feature.properties.Totalfour,
                 color: "blue"
             },
             {
-                key: "2013 Accidents",
+                key: "2013",
                 value: feature.properties.TotalThirt,
                 color: "red"
             },
 					{
-                key: "2012 Accidents",
+                key: "2012",
                 value: feature.properties.totalTwel,
                 color: "orange"
             },
 					{
-                key: "2011 Accidents",
+                key: "2011",
                 value: feature.properties.totalElev,
                 color: "yellow"
             }
